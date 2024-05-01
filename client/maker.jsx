@@ -3,77 +3,77 @@ const React = require('react');
 const { useState, useEffect } = React;
 const { createRoot } = require('react-dom/client');
 
-const handleDomo = (e, onDomoAdded) => {
+const handleRecord = (e, onRecordAdded) => {
     e.preventDefault();
     helper.hideError();
 
-    const name = e.target.querySelector('#domoName').value;
-    const age = e.target.querySelector('#domoAge').value;
-    const level = e.target.querySelector('#domoLevel').value;
+    const name = e.target.querySelector('#recordName').value;
+    const age = e.target.querySelector('#recordAge').value;
+    const level = e.target.querySelector('#recordLevel').value;
 
     if (!name || !age || !level) {
         helper.handleError('All fields are required');
         return false;
     }
 
-    helper.sendPost(e.target.action, { name, age, level }, onDomoAdded);
+    helper.sendPost(e.target.action, { name, age, level }, onRecordAdded);
     return false;
 };
 
-const DomoForm = (props) => {
+const RecordForm = (props) => {
     return (
-        <form id="domoForm"
-            onSubmit={(e) => handleDomo(e, props.triggerReload)}
-            name="domoForm"
+        <form id="recordForm"
+            onSubmit={(e) => handleRecord(e, props.triggerReload)}
+            name="recordForm"
             action="/maker"
             method="POST"
-            className="domoForm"
+            className="recordForm"
         >
             <lable htmlFor="name">Name: </lable>
-            <input id="domoName" type="text" name="name" placeholder="Domo Name" />
+            <input id="recordName" type="text" name="name" placeholder="Record Name" />
             <lable htmlFor="age">Age: </lable>
-            <input id="domoAge" type="number" min="0" name="age" />
+            <input id="recordAge" type="number" min="0" name="age" />
             <lable htmlFor="level">Level: </lable>
-            <input id="domolevel" type="number" min="0" name="level" />
-            <input className="makeDomoSubmit" type="submit" value="Make Domo" />
+            <input id="recordlevel" type="number" min="0" name="level" />
+            <input className="makeRecordSubmit" type="submit" value="Make Record" />
         </form>
     );
 };
 
-const DomoList = (props) => {
-    const [domos, setDomos] = useState(props.domos);
+const RecordList = (props) => {
+    const [records, setRecords] = useState(props.records);
 
     useEffect(() => {
-        const loadDomosFromServer = async () => {
-            const response = await fetch('/getDomos');
+        const loadRecordsFromServer = async () => {
+            const response = await fetch('/getRecords');
             const data = await response.json();
-            setDomos(data.domos);
+            setRecords(data.records);
         };
-        loadDomosFromServer();
-    }, [props.reloadDomos]);
+        loadRecordsFromServer();
+    }, [props.reloadRecords]);
 
-    if (domos.length === 0) {
+    if (records.length === 0) {
         return (
-            <div className="domoList">
-                <h3 className="emptyDomo">No Domos Yet!</h3>
+            <div className="recordList">
+                <h3 className="emptyRecord">No Records Yet!</h3>
             </div>
         );
     }
 
-    const domoNodes = domos.map(domo => {
+    const recordNodes = records.map(record => {
         return (
-            <div key={domo.id} className="domo">
-                <img src="/assets/img/domoface.jpeg" alt="domo face" className="domoFace" />
-                <h3 className="domoName">Name: {domo.name}</h3>
-                <h3 className="domoAge">Age: {domo.age}</h3>
-                <h3 className="domoLevel">Level: {domo.level}</h3>
+            <div key={record.id} className="record">
+                <img src="/assets/img/recordface.jpeg" alt="record face" className="recordFace" />
+                <h3 className="recordName">Name: {record.name}</h3>
+                <h3 className="recordAge">Age: {record.age}</h3>
+                <h3 className="recordLevel">Level: {record.level}</h3>
             </div>
         );
     });
 
     return (
-        <div className="domoList">
-            {domoNodes}
+        <div className="recordList">
+            {recordNodes}
         </div>
     );
 };
@@ -119,27 +119,27 @@ const PasswordChangeWindow = (props) => {
 }
 
 const App = () => {
-    const [reloadDomos, setReloadDomos] = useState(false);
+    const [reloadRecords, setReloadRecords] = useState(false);
 
     return (
         <div>
-            <div id="makeDomo">
-                <DomoForm triggerReload={() => setReloadDomos(!reloadDomos)} />
+            <div id="makeRecord">
+                <RecordForm triggerReload={() => setReloadRecords(!reloadRecords)} />
             </div>
-            <div id="domos">
-                <DomoList domos={[]} reloadDomos={reloadDomos} />
+            <div id="records">
+                <RecordList records={[]} reloadRecords={reloadRecords} />
             </div>
         </div>
     );
 };
 
 const init = () => {
-    const domosButton = document.getElementById('domosButton');
+    const recordsButton = document.getElementById('recordsButton');
     const changePasswordButton = document.getElementById('changePasswordButton');
 
     const root = createRoot(document.getElementById('app'));
 
-    domosButton.addEventListener('click', (e) => {
+    recordsButton.addEventListener('click', (e) => {
         e.preventDefault();
         root.render( < App /> );
         return false;
