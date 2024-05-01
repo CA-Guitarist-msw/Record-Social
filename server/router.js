@@ -13,10 +13,14 @@ const router = (app) => {
 
   app.get('/logout', mid.requiresLogin, controllers.Account.logout);
 
-  app.get('/maker', mid.requiresLogin, controllers.Record.makerPage);
-  app.post('/maker', mid.requiresLogin, controllers.Record.makeRecord);
+  app.get('/recorder', mid.requiresLogin, controllers.Record.recorderPage);
+  app.post('/recorder', mid.requiresLogin, controllers.Record.createRecord);
 
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
+
+  app.all('*', (req, res) => {
+    res.render('pageNotFound');
+  });
 };
 
 module.exports = router;

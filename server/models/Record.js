@@ -4,20 +4,21 @@ const _ = require('underscore');
 const setName = (name) => _.escape(name).trim();
 
 const RecordSchema = new mongoose.Schema({
-  name: {
+  albumTitle: {
     type: String,
     required: true,
     trim: true,
     set: setName,
   },
-  age: {
-    type: Number,
-    min: 0,
+  comments: {
+    type: String,
     required: true,
+    trim: true,
   },
-  level: {
+  rating: {
     type: Number,
     min: 0,
+    max: 10,
     required: true,
   },
   owner: {

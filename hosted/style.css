@@ -4,6 +4,13 @@ html, body {
     margin: 0;
     padding: 0;
     overflow-x: hidden;
+    background-color: #303030;
+}
+
+footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #logo {
@@ -71,7 +78,7 @@ nav:nth-child(1) {
     float:left;
 }
 
-.makeRecordSubmit {
+.createRecordSubmit {
     transition: background-color 0.4s ease;
     display: inline;
     width: 90px;
@@ -81,16 +88,17 @@ nav:nth-child(1) {
     text-decoration: none;
 }
 
-.makeRecordSubmit:link, .makeRecordSubmit:visited, .makeRecordSubmit:hover, .makeRecordSubmit:active {
+.createRecordSubmit:link, .createRecordSubmit:visited, .createRecordSubmit:hover, .createRecordSubmit:active {
     color: white;
 }
 
-.makeRecordSubmit:hover {
+.createRecordSubmit:hover {
     transition: background-color 0.4s ease;
     background-color: #338acc;
 }
 
 .mainForm {
+    color: white;
     height: 300px;
     width: 350px;
     margin: 0 auto;
@@ -168,12 +176,6 @@ nav:nth-child(1) {
     left: 20px;
 }
 
-#speech {
-    height: 120px;
-    width: 250px;
-    z-index:300;
-}
-
 #errorMessage {
     font-size: 1.2em;
     font-weight: bold;
@@ -221,7 +223,7 @@ nav:nth-child(1) {
     background-color: #66bfff;
 }
 
-img.recordFace {
+img.record {
     margin-left: 25px;
     margin-right: 10px;
     height: 50px;
@@ -239,7 +241,7 @@ h3.emptyRecord {
     margin-top: 18px;
 }
 
-h3.recordName {
+h3.recordAlbumTitle {
     float:left;
     width: 200px;
     font-weight: bold;
@@ -247,7 +249,16 @@ h3.recordName {
     font-size: 1.5em;
 }
 
-h3.recordAge {
+h3.recordComments {
+    float:right;
+    text-align: left;
+    width: 100px;
+    font-weight: bold;
+    padding-right: 40px;
+    font-size: 1.5em;
+}
+
+h3.recordRating {
     float:right;
     text-align: left;
     width: 100px;
@@ -262,4 +273,10 @@ h3.recordAge {
 
 .record:last-child {
     margin-bottom:10px;
+}
+
+.pageNotFound {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: red;
 }

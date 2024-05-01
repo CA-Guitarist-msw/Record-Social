@@ -7,16 +7,16 @@ const handleRecord = (e, onRecordAdded) => {
     e.preventDefault();
     helper.hideError();
 
-    const name = e.target.querySelector('#recordName').value;
-    const age = e.target.querySelector('#recordAge').value;
-    const level = e.target.querySelector('#recordLevel').value;
+    const albumTitle = e.target.querySelector('#recordAlbumTitle').value;
+    const comments = e.target.querySelector('#recordComments').value;
+    const rating = e.target.querySelector('#recordRating').value;
 
-    if (!name || !age || !level) {
+    if (!albumTitle || !comments || !rating) {
         helper.handleError('All fields are required');
         return false;
     }
 
-    helper.sendPost(e.target.action, { name, age, level }, onRecordAdded);
+    helper.sendPost(e.target.action, { albumTitle, comments, rating }, onRecordAdded);
     return false;
 };
 
@@ -25,17 +25,17 @@ const RecordForm = (props) => {
         <form id="recordForm"
             onSubmit={(e) => handleRecord(e, props.triggerReload)}
             name="recordForm"
-            action="/maker"
+            action="/recorder"
             method="POST"
-            className="recordForm"
+            className="mainForm"
         >
-            <lable htmlFor="name">Name: </lable>
-            <input id="recordName" type="text" name="name" placeholder="Record Name" />
-            <lable htmlFor="age">Age: </lable>
-            <input id="recordAge" type="number" min="0" name="age" />
-            <lable htmlFor="level">Level: </lable>
-            <input id="recordlevel" type="number" min="0" name="level" />
-            <input className="makeRecordSubmit" type="submit" value="Make Record" />
+            <lable htmlFor="albumTitle">Album Title: </lable>
+            <input id="recordAlbumTitle" type="text" name="albumTitle" placeholder="Record Name" />
+            <lable htmlFor="comments">Comments: </lable>
+            <input id="recordComments" type="text" name="age" />
+            <lable htmlFor="rating">Rating: </lable>
+            <input id="recordRating" type="number" min="0" max="10" name="rating" />
+            <input className="createRecordSubmit" type="submit" value="Create Record" />
         </form>
     );
 };
@@ -63,10 +63,10 @@ const RecordList = (props) => {
     const recordNodes = records.map(record => {
         return (
             <div key={record.id} className="record">
-                <img src="/assets/img/recordface.jpeg" alt="record face" className="recordFace" />
-                <h3 className="recordName">Name: {record.name}</h3>
-                <h3 className="recordAge">Age: {record.age}</h3>
-                <h3 className="recordLevel">Level: {record.level}</h3>
+                <img src="/assets/img/record.png" alt="record" className="record" />
+                <h3 className="recordAlbumTitle">Album Title: {record.albumTitle}</h3>
+                <h3 className="recordComments">Comments: {record.comments}</h3>
+                <h3 className="recordRating">Rating: {record.rating}</h3>
             </div>
         );
     });
@@ -123,7 +123,7 @@ const App = () => {
 
     return (
         <div>
-            <div id="makeRecord">
+            <div id="createRecord">
                 <RecordForm triggerReload={() => setReloadRecords(!reloadRecords)} />
             </div>
             <div id="records">
@@ -135,6 +135,7 @@ const App = () => {
 
 const init = () => {
     const recordsButton = document.getElementById('recordsButton');
+    const createButton = document.getElementById('createButton');
     const changePasswordButton = document.getElementById('changePasswordButton');
 
     const root = createRoot(document.getElementById('app'));
@@ -142,6 +143,12 @@ const init = () => {
     recordsButton.addEventListener('click', (e) => {
         e.preventDefault();
         root.render( < App /> );
+        return false;
+    });
+
+    createButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        root.render( < RecordForm /> );
         return false;
     });
 
