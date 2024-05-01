@@ -118,6 +118,53 @@ const PasswordChangeWindow = (props) => {
     );
 }
 
+const handlePlaylist = (e) => {
+    e.preventDefault();
+    helper.hideError();
+}
+
+const PlaylistsWindow = (props) => {
+    return (
+        <form id="playlistForm"
+            name="playlistForm"
+            onSubmit={handlePlaylist}
+            action="/playlist"
+            method="POST"
+            className="mainForm"
+        >
+            <lable htmlFor="playlistTitle">Playlist Title: </lable>
+            <input id="playlistTitle" type="text" name="playlistTitle" placeholder="Playlist Title" />
+            <lable htmlFor="songs">Songs: </lable>
+            <input id="songs" type="text" name="songs" placeholder="Playlist Songs" />
+            <input className="formSubmit" type="submit" value="Create Playlist" />
+        </form>
+    );
+}
+
+const handlePremium = (e) => {
+    e.preventDefault();
+    helper.hideError();
+
+    helper.sendPost(e.target.action);
+
+    return false;
+}
+
+const PremiumWindow = (props) => {
+    return (
+        <form id="premiumForm"
+            name="premiumForm"
+            onSubmit={handlePremium}
+            action="/premium"
+            method="POST"
+            className="mainForm"
+        >
+            <lable htmlFor="premium">Toggle Premium: </lable>
+            <input className="formSubmit" type="submit" value="Toggle Premium" />
+        </form>
+    );
+}
+
 const App = () => {
     const [reloadRecords, setReloadRecords] = useState(false);
 
@@ -134,11 +181,20 @@ const App = () => {
 };
 
 const init = () => {
+    const homeButton = document.getElementById('homeButton');
     const recordsButton = document.getElementById('recordsButton');
     const createButton = document.getElementById('createButton');
+    const playlistsButton = document.getElementById('playlistsButton');
+    const premiumButton = document.getElementById('premiumButton')
     const changePasswordButton = document.getElementById('changePasswordButton');
 
     const root = createRoot(document.getElementById('app'));
+
+    homeButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        root.render( < App /> );
+        return false;
+    });
 
     recordsButton.addEventListener('click', (e) => {
         e.preventDefault();
@@ -149,6 +205,18 @@ const init = () => {
     createButton.addEventListener('click', (e) => {
         e.preventDefault();
         root.render( < RecordForm /> );
+        return false;
+    });
+
+    playlistsButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        root.render( < PlaylistsWindow /> );
+        return false;
+    });
+
+    premiumButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        root.render( < PremiumWindow /> );
         return false;
     });
 

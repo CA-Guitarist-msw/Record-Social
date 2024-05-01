@@ -11,6 +11,8 @@ const router = (app) => {
 
   app.post('/changePassword', mid.requiresLogin, controllers.Account.changePassword);
 
+  app.post('/premium', mid.requiresLogin, controllers.Account.togglePremium);
+
   app.get('/logout', mid.requiresLogin, controllers.Account.logout);
 
   app.get('/recorder', mid.requiresLogin, controllers.Record.recorderPage);

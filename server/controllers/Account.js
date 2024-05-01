@@ -70,12 +70,27 @@ const changePassword = async (req, res) => {
   try {
     const hash = await Account.generateHash(pass);
     await Account.findByIdAndUpdate(req.session.account._id, { password: hash });
-    return res.json({ redirect: '/recorder' });
+    return res.status(200).json({ redirect: '/recorder' });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ error: 'An error occured!' });
   }
 };
+
+const togglePremium = async (req, res) => {
+  try {
+    const doc = await Account.findByIdAndUpdate(
+      req.session.account._id,
+      {premium: !req.session.account.premium},
+    ).exec();
+
+    req.session.account = Account.toAPI(doc);
+    return res.status(200).json({premium: req.session.account.premium});
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({error: 'Premium not update'});
+  }
+}
 
 module.exports = {
   loginPage,
@@ -83,4 +98,5 @@ module.exports = {
   logout,
   signup,
   changePassword,
+  togglePremium,
 };
